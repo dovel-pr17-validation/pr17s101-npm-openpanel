@@ -139,7 +139,10 @@ function getChatEntry(
     },
     onData: (part) => {
       if (part.type === 'data-title') {
-        entry.handlers?.onTitle(part.data.title);
+        const data = part.data as { title?: unknown } | undefined;
+        if (typeof data?.title === 'string') {
+          entry.handlers?.onTitle(data.title);
+        }
       }
     },
     onFinish: () => entry.handlers?.onFinish(),
